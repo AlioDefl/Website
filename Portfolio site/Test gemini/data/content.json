@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "name": "ALIOCHA",
+    "title": "CREATIVE ENGINEER",
+    "subtitle": "Building digital experiences at the intersection of code, design, and chaos"
+  },
+  "about": {
+    "bio": "I transform complex ideas into elegant digital experiences. Specialized in high-performance web applications, WebGL interactions, and pushing the boundaries of what's possible in the browser.",
+    "location": "France",
+    "availability": "Open to freelance & full-time"
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "NEURAL GRID",
+      "category": "WebGL Experience",
+      "year": "2024",
+      "description": "Real-time neural network visualization using Three.js and custom shaders",
+      "image": "/images/project-1.svg",
+      "tech": ["React", "Three.js", "GLSL", "Node.js"]
+    },
+    {
+      "id": 2,
+      "title": "QUANTUM LEAP",
+      "category": "E-Commerce Platform",
+      "year": "2024",
+      "description": "Next-gen shopping experience with physics-based product interactions",
+      "image": "/images/project-2.svg",
+      "tech": ["Next.js", "R3F", "Stripe", "Vercel"]
+    },
+    {
+      "id": 3,
+      "title": "VOID ARCHIVE",
+      "category": "Digital Gallery",
+      "year": "2023",
+      "description": "Immersive 3D gallery with infinite scroll and dynamic lighting",
+      "image": "/images/project-3.svg",
+      "tech": ["React", "Drei", "GSAP", "Blender"]
+    },
+    {
+      "id": 4,
+      "title": "CHROMATIC FLUX",
+      "category": "Brand Website",
+      "year": "2023",
+      "description": "Award-winning site with procedural color generation and smooth scrollytelling",
+      "image": "/images/project-4.svg",
+      "tech": ["Vue.js", "WebGL", "Locomotive", "Canvas API"]
+    }
+  ],
+  "skills": {
+    "technical": [
+      "React / Next.js",
+      "Three.js / R3F",
+      "GLSL Shaders",
+      "GSAP / Framer Motion",
+      "TypeScript",
+      "Node.js",
+      "WebGL / Canvas",
+      "Blender"
+    ],
+    "design": [
+      "UI/UX Design",
+      "Motion Design",
+      "3D Modeling",
+      "Creative Direction"
+    ]
+  },
+  "contact": {
+    "email": "hello@aliocha.dev",
+    "github": "github.com/aliocha",
+    "linkedin": "linkedin.com/in/aliocha",
+    "twitter": "@aliocha_dev"
+  }
+}
