@@ -5,6 +5,7 @@ import { Float, Text3D, Center } from "@react-three/drei";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useStore } from "@/store/useStore";
+import ErrorBoundary from "@/components/dom/ErrorBoundary";
 
 // Particle system
 function Particles() {
@@ -90,14 +91,16 @@ function FloatingShapes() {
 export default function HeroScene() {
   return (
     <div className="fixed top-0 left-0 w-full h-screen -z-10">
-      <Canvas
-        camera={{ position: [0, 0, 10], fov: 75 }}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <color attach="background" args={["#050505"]} />
-        <Particles />
-        <FloatingShapes />
-      </Canvas>
+      <ErrorBoundary>
+        <Canvas
+          camera={{ position: [0, 0, 10], fov: 75 }}
+          gl={{ antialias: true, alpha: true }}
+        >
+          <color attach="background" args={["#050505"]} />
+          <Particles />
+          <FloatingShapes />
+        </Canvas>
+      </ErrorBoundary>
     </div>
   );
 }

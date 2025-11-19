@@ -32,30 +32,44 @@ export default function Skills({ data }: SkillsProps) {
       });
 
       // Fade in technical skills
-      gsap.from(technicalRef.current?.children || [], {
-        scrollTrigger: {
-          trigger: technicalRef.current,
-          start: "top 80%",
-          end: "bottom 60%",
-          scrub: 1,
-        },
-        opacity: 0,
-        y: 50,
-        stagger: 0.1,
-      });
+      if (technicalRef.current?.children) {
+        gsap.fromTo(
+          technicalRef.current.children,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.05,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: technicalRef.current,
+              start: "top bottom-=100",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
 
       // Fade in design skills
-      gsap.from(designRef.current?.children || [], {
-        scrollTrigger: {
-          trigger: designRef.current,
-          start: "top 80%",
-          end: "bottom 60%",
-          scrub: 1,
-        },
-        opacity: 0,
-        y: 50,
-        stagger: 0.1,
-      });
+      if (designRef.current?.children) {
+        gsap.fromTo(
+          designRef.current.children,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.05,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: designRef.current,
+              start: "top bottom-=100",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -65,7 +79,7 @@ export default function Skills({ data }: SkillsProps) {
     <section
       ref={sectionRef}
       id="skills-section"
-      className="relative min-h-screen bg-dark py-32"
+      className="relative min-h-screen bg-dark py-10"
     >
       {/* Fixed WebGL Canvas */}
       <div
@@ -87,21 +101,20 @@ export default function Skills({ data }: SkillsProps) {
         </div>
 
         {/* Technical Skills */}
-        <div className="mb-32">
-          <h3 className="font-display text-2xl md:text-3xl font-bold text-light/80 mb-8 tracking-tight">
+        <div className="mb-24">
+          <h3 className="font-display text-2xl md:text-3xl font-bold text-light/80 mb-8 tracking-tight flex items-center gap-4">
+            <span className="w-2 h-2 bg-accent rounded-full"></span>
             Technical Stack
           </h3>
-          <div ref={technicalRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div ref={technicalRef} className="flex flex-wrap gap-3">
             {data.technical.map((skill, idx) => (
               <div
                 key={idx}
-                className="group p-6 border border-light/10 hover:border-accent/50 transition-all duration-300 cursor-pointer"
+                className="group relative px-6 py-3 border border-light/10 bg-light/5 rounded-full hover:border-accent/50 hover:bg-light/10 transition-all duration-300 cursor-default overflow-hidden"
                 data-cursor="hover"
               >
-                <span className="font-mono text-xs text-accent/50 block mb-2">
-                  [{idx.toString().padStart(2, "0")}]
-                </span>
-                <p className="font-display text-lg text-light group-hover:text-accent transition-colors duration-300">
+                <div className="absolute inset-0 bg-accent/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                <p className="relative font-mono text-sm md:text-base text-light group-hover:text-accent transition-colors duration-300 z-10">
                   {skill}
                 </p>
               </div>
@@ -111,20 +124,19 @@ export default function Skills({ data }: SkillsProps) {
 
         {/* Design Skills */}
         <div>
-          <h3 className="font-display text-2xl md:text-3xl font-bold text-light/80 mb-8 tracking-tight">
+          <h3 className="font-display text-2xl md:text-3xl font-bold text-light/80 mb-8 tracking-tight flex items-center gap-4">
+            <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
             Design & Creative
           </h3>
-          <div ref={designRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div ref={designRef} className="flex flex-wrap gap-3">
             {data.design.map((skill, idx) => (
               <div
                 key={idx}
-                className="group p-6 border border-light/10 hover:border-accent/50 transition-all duration-300 cursor-pointer"
+                className="group relative px-6 py-3 border border-light/10 bg-light/5 rounded-full hover:border-purple-500/50 hover:bg-light/10 transition-all duration-300 cursor-default overflow-hidden"
                 data-cursor="hover"
               >
-                <span className="font-mono text-xs text-accent/50 block mb-2">
-                  [{idx.toString().padStart(2, "0")}]
-                </span>
-                <p className="font-display text-lg text-light group-hover:text-accent transition-colors duration-300">
+                <div className="absolute inset-0 bg-purple-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                <p className="relative font-mono text-sm md:text-base text-light group-hover:text-purple-400 transition-colors duration-300 z-10">
                   {skill}
                 </p>
               </div>

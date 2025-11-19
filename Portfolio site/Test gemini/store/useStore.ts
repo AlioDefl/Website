@@ -15,6 +15,10 @@ interface StoreState {
   currentSection: string;
   setCurrentSection: (section: string) => void;
 
+  // Language state
+  language: 'fr' | 'en';
+  setLanguage: (language: 'fr' | 'en') => void;
+
   // Cursor state
   cursorVariant: 'default' | 'hover' | 'drag';
   setCursorVariant: (variant: 'default' | 'hover' | 'drag') => void;
@@ -31,6 +35,9 @@ export const useStore = create<StoreState>((set) => ({
 
   currentSection: 'hero',
   setCurrentSection: (currentSection) => set({ currentSection }),
+
+  language: 'fr',
+  setLanguage: (language) => set({ language }),
 
   cursorVariant: 'default',
   setCursorVariant: (cursorVariant) => set({ cursorVariant }),

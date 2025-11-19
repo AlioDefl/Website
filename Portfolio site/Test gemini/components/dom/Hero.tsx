@@ -38,7 +38,7 @@ export default function Hero({ data }: HeroProps) {
       if (titleRef.current) {
         const chars = titleRef.current.textContent?.split("") || [];
         titleRef.current.innerHTML = chars
-          .map((char) => `<span class="inline-block">${char === " " ? "&nbsp;" : char}</span>`)
+          .map((char) => `<span class="inline-block" aria-hidden="true">${char === " " ? "&nbsp;" : char}</span>`)
           .join("");
 
         tl.from(
@@ -100,6 +100,7 @@ export default function Hero({ data }: HeroProps) {
         <h1
           ref={titleRef}
           className="font-display text-6xl md:text-8xl lg:text-9xl font-bold text-light mb-8 tracking-tighter leading-none"
+          aria-label={data.title}
         >
           {data.title}
         </h1>

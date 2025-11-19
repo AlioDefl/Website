@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useProgress } from "@react-three/drei";
 import { useStore } from "@/store/useStore";
 
 export default function Loader() {
@@ -11,6 +12,9 @@ export default function Loader() {
   const [binaryText, setBinaryText] = useState("");
   const setIsLoading = useStore((state) => state.setIsLoading);
   const setLoadProgress = useStore((state) => state.setLoadProgress);
+
+  const { active, progress: realProgress } = useProgress();
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     // Generate random binary
@@ -23,52 +27,67 @@ export default function Loader() {
       setBinaryText(generateBinary());
     }, 50);
 
-    // Simulate loading progress
-    let progress = 0;
-    const progressInterval = setInterval(() => {
-      progress += Math.random() * 15;
-      if (progress >= 100) {
-        progress = 100;
-        clearInterval(progressInterval);
-        clearInterval(binaryInterval);
+    return () => clearInterval(binaryInterval);
+  }, []);
 
-        // Animate loader out
-        setTimeout(() => {
-          const tl = gsap.timeline({
-            onComplete: () => {
-              setIsLoading(false);
-            },
-          });
+  useEffect(() => {
+    // Fallback: If loading takes too long (or no assets), force finish
+    const fallbackTimeout = setTimeout(() => {
+      setProgress(100);
+    }, 3000);
 
-          tl.to(progressRef.current, {
-            width: "100%",
-            duration: 0.5,
-            ease: "power2.inOut",
-          })
-            .to(loaderRef.current, {
-              clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
-              duration: 1.2,
-              ease: "expo.inOut",
-            }, "+=0.3");
-        }, 500);
-      }
+    return () => clearTimeout(fallbackTimeout);
+  }, []);
 
-      setLoadProgress(Math.min(progress, 100));
+  useEffect(() => {
+    // Smoothly interpolate progress
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        // If not active and we haven't started, or if we are done
+        const target = !active && realProgress === 0 ? 100 : realProgress;
 
-      if (progressRef.current) {
-        gsap.to(progressRef.current, {
-          width: `${Math.min(progress, 100)}%`,
-          duration: 0.3,
-          ease: "power2.out",
+        const diff = target - prev;
+        if (Math.abs(diff) < 0.5) return target;
+        return prev + diff * 0.1;
+      });
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, [active, realProgress]);
+
+  useEffect(() => {
+    setLoadProgress(progress);
+
+    if (progress >= 99) {
+      // Animate loader out
+      setTimeout(() => {
+        const tl = gsap.timeline({
+          onComplete: () => {
+            setIsLoading(false);
+          },
         });
-      }
-    }, 100);
 
-    return () => {
-      clearInterval(binaryInterval);
-      clearInterval(progressInterval);
-    };
-  }, [setIsLoading, setLoadProgress]);
+        tl.to(progressRef.current, {
+          width: "100%",
+          duration: 0.5,
+          ease: "power2.inOut",
+        })
+          .to(loaderRef.current, {
+            clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
+            duration: 1.2,
+            ease: "expo.inOut",
+          }, "+=0.3");
+      }, 500);
+    }
+
+    if (progressRef.current) {
+      gsap.to(progressRef.current, {
+        width: `${progress}%`,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    }
+  }, [progress, setIsLoading, setLoadProgress]);
 
   return (
     <div

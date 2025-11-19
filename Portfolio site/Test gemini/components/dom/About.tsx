@@ -54,7 +54,7 @@ export default function About({ data }: AboutProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen bg-dark flex items-center py-32"
+      className="relative min-h-screen bg-dark flex items-center py-20"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
         <div className="grid md:grid-cols-2 gap-16 items-start">

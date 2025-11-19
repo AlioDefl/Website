@@ -4,11 +4,13 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useStore } from "@/store/useStore";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
+  const isLoading = useStore((state) => state.isLoading);
 
   useEffect(() => {
     // Initialize Lenis
@@ -32,9 +34,21 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     // Cleanup
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(() => {});
+      gsap.ticker.remove(() => { });
     };
   }, []);
+
+  useEffect(() => {
+    if (!lenisRef.current) return;
+
+    if (isLoading) {
+      lenisRef.current.stop();
+      document.body.style.overflow = "hidden"; // Double safety
+    } else {
+      lenisRef.current.start();
+      document.body.style.overflow = "";
+    }
+  }, [isLoading]);
 
   useLayoutEffect(() => {
     // Refresh ScrollTrigger on mount
